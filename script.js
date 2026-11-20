@@ -97,7 +97,7 @@ function getVoiceForLanguage(language) {
   const matchingVoices = voices.filter((voice) =>
     voice.lang.toLowerCase() === normalizedLanguage
       || voice.lang.toLowerCase().startsWith(`${normalizedLanguage.split("-")[0]}-`));
-  return matchingVoices.find((voice) => /natural|neural|online|premium/i.test(voice.name))
+  return matchingVoices.find((voice) => /natural|neural|enhanced|online|premium/i.test(voice.name))
     ?? matchingVoices.find((voice) => voice.default)
     ?? matchingVoices[0];
 }
@@ -109,8 +109,12 @@ function isEnglishStory(story) {
 function spokenSummary(story) {
   const text = (story.narration || story.summary || "")
     .replace(/\[\d+\]/g, "")
+    .replace(/[＊*✳]/g, "")
+    .replace(/[\u200B-\u200D\uFEFF]/g, "")
     .replace(/\s+/g, " ")
+    .replace(/\s+([、。！？])/g, "$1")
     .trim();
+  const english = isEnglishStory(story);
   const sentences = text.match(/[^。！？.!?]+[。！？.!?]?/g) ?? [];
   const selected = [];
   let length = 0;
@@ -121,8 +125,10 @@ function spokenSummary(story) {
     selected.push(part);
     length += part.length;
   }
-  if (selected.length) return selected.join(" ");
-  return text.slice(0, 240).trim();
+  const summary = selected.length
+    ? selected.join(english ? " " : "")
+    : text.slice(0, 240).trim();
+  return summary && !/[。！？.!?]$/.test(summary) ? `${summary}。` : summary;
 }
 
 function buildNarration(story) {
@@ -139,7 +145,7 @@ function buildNarration(story) {
   if (english) {
     return `Coming up on our walk: ${story.title}. ${summary} ${walkingDistance}`;
   }
-  return `さて、今回のよりみちは「${story.title}」です。${summary} ${walkingDistance}`;
+  return `さて、今回の寄り道先は「${story.title}」です。${summary}${walkingDistance}`;
 }
 
 function renderStories() {
@@ -488,8 +494,8 @@ function playStory(nextStory) {
   narration.lang = isEnglishStory(nextStory) ? "en-US" : "ja-JP";
   const voice = getVoiceForLanguage(narration.lang);
   if (voice) narration.voice = voice;
-  narration.rate = 0.97;
-  narration.pitch = 1.02;
+  narration.rate = 0.94;
+  narration.pitch = 1;
   narration.onstart = () => {
     if (token !== state.speechToken) return;
     state.audioStarted = true;
@@ -563,9 +569,10 @@ function speakIntro() {
   const synthesis = window.speechSynthesis;
   synthesis.cancel();
   state.audioStarted = false;
-  const intro = new SpeechSynthesisUtterance("よりみちラジオを始めます。近くの物語を探しています。");
+  const intro = new SpeechSynthesisUtterance("よりみちラジオです。近くの物語を探しに行きましょう。");
   intro.lang = "ja-JP";
-  intro.rate = 1;
+  intro.rate = 0.94;
+  intro.pitch = 1;
   const voice = getVoiceForLanguage(intro.lang);
   if (voice) intro.voice = voice;
   intro.onstart = () => {
