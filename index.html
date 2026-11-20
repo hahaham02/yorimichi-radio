@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f5f2e9">
+  <meta name="description" content="いつもの道に、知らない物語。歩くペースに合わせて、近くの歴史を音声でお届けします。">
+  <title>よりみちラジオ — まちの物語を聴く散歩</title>
+  <link rel="preconnect" href="https://ja.wikipedia.org">
+  <link rel="preconnect" href="https://overpass-api.de">
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="wordmark" href="#" aria-label="よりみちラジオ ホーム">
+        <span class="wordmark-icon" aria-hidden="true">より</span>
+        <span>よりみち<span class="wordmark-light">ラジオ</span></span>
+      </a>
+      <div class="header-note"><span class="live-dot" aria-hidden="true"></span> WALKING STORIES</div>
+    </header>
+
+    <main>
+      <section class="welcome" aria-labelledby="page-title">
+        <div class="welcome-copy">
+          <p class="eyebrow"><span class="eyebrow-line"></span> YOUR TOWN, A LITTLE CLOSER</p>
+          <h1 id="page-title">その道の先に、<br>物語がある。</h1>
+          <p class="intro">半径500mの史跡や地名の由来、まちの記憶。<br class="desktop-break">歩きながら、耳だけで楽しむ小さなラジオ。</p>
+          <div class="location-line">
+            <span class="location-pin" aria-hidden="true"></span>
+            <span id="location-label">現在地を待っています</span>
+          </div>
+        </div>
+        <div class="landscape" aria-hidden="true">
+          <div class="sun"></div>
+          <div class="hill hill-back"></div>
+          <div class="hill hill-front"></div>
+          <div class="path"></div>
+          <span class="landmark landmark-one">✳</span>
+          <span class="landmark landmark-two">＋</span>
+          <div class="landscape-caption">A WALK THROUGH TIME <span>— EST. EVERY DAY</span></div>
+        </div>
+        <span class="hero-index">01 <span>/</span> 03</span>
+      </section>
+
+      <section class="player-section" aria-label="お散歩ラジオ">
+        <div class="player-card">
+          <div class="player-topline">
+            <span class="on-air"><span></span> <span id="on-air-label">READY WHEN YOU ARE</span></span>
+            <span class="radius-label"><span aria-hidden="true">⌖</span> 半径 500m</span>
+          </div>
+          <div class="now-playing">
+            <div class="record-art" aria-hidden="true">
+              <span class="record-ring"></span>
+              <span class="record-center"><span>より</span></span>
+            </div>
+            <div class="track-copy">
+              <p class="track-kicker" id="track-kicker">YOUR WALKING RADIO</p>
+              <h2 id="track-title">まちの物語を<br>探しにいこう。</h2>
+              <p id="track-description">スタートすると、近くの歴史を見つけて読み上げます。</p>
+            </div>
+          </div>
+          <div class="story-navigation" aria-label="物語の選択">
+            <button class="story-nav-button" id="previous-story" type="button" aria-label="前の物語" disabled>
+              <span aria-hidden="true">←</span> 前へ
+            </button>
+            <span class="story-position" id="story-position" aria-live="polite">— / —</span>
+            <button class="story-nav-button" id="next-story" type="button" aria-label="次の物語" disabled>
+              次へ <span aria-hidden="true">→</span>
+            </button>
+          </div>
+          <div class="audio-progress" aria-hidden="true"><span id="progress-bar"></span></div>
+          <div class="player-controls">
+            <span class="distance-readout"><span class="distance-icon" aria-hidden="true">◎</span> <span id="distance-label">位置情報はまだありません</span></span>
+            <button class="play-button" id="play-button" type="button" aria-label="散歩ラジオをはじめる">
+              <span class="play-icon" aria-hidden="true">▶</span>
+              <span id="play-label">散歩をはじめる</span>
+            </button>
+            <button class="stop-button" id="stop-button" type="button" hidden>終了</button>
+          </div>
+        </div>
+        <p class="privacy-note"><span aria-hidden="true">⌁</span> 位置情報は近くのスポット検索にのみ使用し、保存しません。</p>
+      </section>
+
+      <section class="nearby-section" aria-labelledby="nearby-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow"><span class="eyebrow-line"></span> AROUND YOU</p>
+            <h2 id="nearby-title">このあたりの物語</h2>
+          </div>
+          <span class="story-count" id="story-count">0 SPOTS</span>
+        </div>
+        <p class="section-status" id="section-status" role="status" aria-live="polite">歩きはじめると、近くのスポットを探します。</p>
+        <ol class="story-list" id="story-list"></ol>
+        <p class="source-note" id="source-note">スポット情報：Wikipedia・OpenStreetMap</p>
+      </section>
+
+      <aside class="listening-tip">
+        <span class="tip-icon" aria-hidden="true">♪</span>
+        <p><strong>耳だけで、気ままに。</strong><br>音声が流れたら、スマホはポケットの中へ。歩きながらまちを楽しもう。</p>
+        <span class="tip-decoration" aria-hidden="true">〰</span>
+      </aside>
+    </main>
+
+    <footer class="footer">
+      <a class="wordmark footer-mark" href="#" aria-label="よりみちラジオ ページの先頭へ">
+        <span class="wordmark-icon" aria-hidden="true">より</span>
+        <span>よりみち<span class="wordmark-light">ラジオ</span></span>
+      </a>
+      <p>まちの記憶を、歩いて聴く。</p>
+      <span class="footer-credit">POWERED BY OPEN DATA</span>
+    </footer>
+  </div>
+  <div class="sr-only" id="announcer" role="status" aria-live="assertive"></div>
+</body>
+</html>
